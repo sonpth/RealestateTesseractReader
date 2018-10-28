@@ -20,7 +20,8 @@ public class BasicTesseractExampleTest {
 
         // Open input image with leptonica library
 //        PIX image = pixRead("test.png");
-        PIX image = pixRead("SmartSelectImage_2018-10-25-08-16-02.png");
+//        PIX image = pixRead("SmartSelectImage_2018-10-25-08-16-02.png");
+        PIX image = pixRead("SmartSelectImage_2018-10-25-08-15-50.png");
         api.SetImage(image);
         // Get OCR result
         outText = api.GetUTF8Text();
