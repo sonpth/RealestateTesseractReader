@@ -1,0 +1,10 @@
+out/
+logs
+*.db
+build/
+*.iml
+.idea/
+.classpath
+.project
+target
+.settings
