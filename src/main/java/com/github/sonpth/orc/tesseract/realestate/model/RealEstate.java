@@ -1,4 +1,4 @@
-package mine.orc.tesseract.realestate.model;
+package com.github.sonpth.orc.tesseract.realestate.model;
 
 public class RealEstate {
 	int price = 0;
