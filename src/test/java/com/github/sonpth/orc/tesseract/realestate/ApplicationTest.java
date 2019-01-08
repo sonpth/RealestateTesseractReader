@@ -62,7 +62,7 @@ public class ApplicationTest {
 		assertEquals("2212", harness.getPostcode());
 	}
 	
-//	@Disabled
+	@Disabled
 	@Test
 	public void test() {
 		RealEstate harness = TesseractStringToModelConveter
