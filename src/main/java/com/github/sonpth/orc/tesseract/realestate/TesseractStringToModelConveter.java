@@ -32,7 +32,7 @@ public class TesseractStringToModelConveter {
 		}
 		
 		//normalize locality
-		final String proposedLocation = data.get(idx);
+		final String proposedLocation = data.get(idx).replace("ﬁ", "fi");
 		Matcher matcher = LOC_PATTERN.matcher(proposedLocation);
 		if (matcher.matches()) {
 			result.setLocation(matcher.group("locality").trim());

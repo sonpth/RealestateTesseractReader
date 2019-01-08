@@ -30,6 +30,9 @@ public class TesseractReader {
 		// Open input image with leptonica library
 		PIX image = pixRead(filename);
 		api.SetImage(image);
+		int height = image.h() / 2;
+		api.SetRectangle(0, height, image.w(), height);
+		
 		// Get OCR result
 		outText = api.GetUTF8Text();
 		String string = outText.getString();

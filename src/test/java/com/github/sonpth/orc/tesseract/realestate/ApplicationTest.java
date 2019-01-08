@@ -66,7 +66,7 @@ public class ApplicationTest {
 	@Test
 	public void test() {
 		RealEstate harness = TesseractStringToModelConveter
-				.convert(TesseractReader.extract("src/test/resources/Co_2.png"));
+				.convert(TesseractReader.extract("/home/pson/tmp/data/Screenshots/test.png"));
 		//TODO we have a list of locality and its postcode.
 		assertEquals("Reves by", harness.getLocation());
 		assertEquals("1/2a Victoria Street", harness.getStreet());

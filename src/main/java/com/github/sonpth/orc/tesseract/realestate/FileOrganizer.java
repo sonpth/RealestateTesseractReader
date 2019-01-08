@@ -20,8 +20,8 @@ import com.github.sonpth.orc.tesseract.realestate.model.RealEstate;
  * @author Phan Son <https://github.com/sonpth>
  */
 public class FileOrganizer {
-//	private static final String inFolder = "/home/pson/tmp/data/Screenshots";
-	private static final String inFolder = "/home/pson/tmp/data/input";
+	private static final String inFolder = "/home/pson/tmp/data/Screenshots";
+//	private static final String inFolder = "/home/pson/tmp/data/input";
 	private static final String outFolder = "/home/pson/tmp/data/output";
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileOrganizer.class);
