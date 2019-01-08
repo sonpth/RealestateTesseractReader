@@ -1,19 +1,17 @@
 package com.github.sonpth.orc.tesseract.realestate;
 
+import static com.github.sonpth.orc.tesseract.realestate.TesseractReader.extract;
+import static com.github.sonpth.orc.tesseract.realestate.TesseractStringToModelConveter.convert;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.sonpth.orc.tesseract.realestate.model.RealEstate;
-
-import org.slf4j.Logger;
-
-import static com.github.sonpth.orc.tesseract.realestate.TesseractReader.*;
-import static com.github.sonpth.orc.tesseract.realestate.TesseractStringToModelConveter.*;
 
 /**
  * This class is responsible to rename a auto-generated filename (e.g:
@@ -22,8 +20,8 @@ import static com.github.sonpth.orc.tesseract.realestate.TesseractStringToModelC
  * @author Phan Son <https://github.com/sonpth>
  */
 public class FileOrganizer {
-	private static final String inFolder = "/home/pson/tmp/data/Screenshots";
-//	private static final String inFolder = "src/test/resources";
+//	private static final String inFolder = "/home/pson/tmp/data/Screenshots";
+	private static final String inFolder = "/home/pson/tmp/data/input";
 	private static final String outFolder = "/home/pson/tmp/data/output";
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileOrganizer.class);
@@ -45,20 +43,36 @@ public class FileOrganizer {
 			int idx;
 			try {
 				final String filename = file.getName();
-				final String inputFilename = inFolder + "/" + file.getName();
-				Path sourcePath = Paths.get(inputFilename);
+				final String inputFilePath = inFolder + "/" + file.getName();
+				Path sourcePath = Paths.get(inputFilePath);
 
-				RealEstate model = convert(extract(inputFilename));
+				RealEstate model = convert(extract(inputFilePath));
+				if (model.getLocation() == null 
+						|| model.getStreet() == null) {
+					LOGGER.warn("Could not extract information from [{}], manual intervention is required!", filename);
+					continue;
+				}
+				
+				//E.g: ".png"
+				final String fileExt = (idx = filename.lastIndexOf(".")) != -1 && idx < filename.length() - 1 ? "." + filename.substring(idx + 1) : ""; 
 				final String outputFilename = String.format("%s_%s%s",
 						model.getLocation(),
 						model.getStreet().replaceAll("/", " "),
-						//file extension
-						(idx = filename.lastIndexOf(".")) != -1 && idx < filename.length() - 1 ? "." + filename.substring(idx + 1) : "") ; 
+						fileExt); 
 				
-				Path destinationPath = Paths.get(outFolder + "/" + outputFilename);
+				String outputFilePath = outFolder + "/" + outputFilename;
+				//If the file is already exists (e.g: ad & sold) 
+				if (new File(outputFilePath).exists()) {
+					//"abc.png" > "abc_999.png"
+					outputFilePath = outFolder + "/" 
+							+ outputFilename.substring(0, outputFilename.length() - fileExt.length())
+							+ "_" +  System.currentTimeMillis() 
+							+ fileExt;
+				}
+				Path destinationPath = Paths.get(outputFilePath);
 
-//				Files.move(sourcePath, destinationPath);
-				Files.copy(sourcePath, destinationPath);
+				Files.move(sourcePath, destinationPath);
+//				Files.copy(sourcePath, destinationPath);
 			} catch (Exception e) {
 				LOGGER.warn(e.getMessage(), e);
 			}

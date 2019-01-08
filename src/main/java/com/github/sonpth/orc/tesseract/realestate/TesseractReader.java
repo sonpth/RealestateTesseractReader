@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class TesseractReader {
-	private static Logger logger = LoggerFactory.getLogger(TesseractReader.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(TesseractReader.class);
 
 	/**
 	 * @param filename - path to the image which we want to exact data from
@@ -33,7 +33,7 @@ public class TesseractReader {
 		// Get OCR result
 		outText = api.GetUTF8Text();
 		String string = outText.getString();
-		logger.debug("OCR output:\n {}", string);
+		LOGGER.debug("OCR output:\n {}", string);
 
 		// Destroy used object and release memory
 		api.End();
